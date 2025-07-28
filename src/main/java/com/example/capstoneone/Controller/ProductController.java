@@ -1,6 +1,5 @@
 package com.example.capstoneone.Controller;
 
-import com.example.capstoneone.API.ApiResponse;
 import com.example.capstoneone.Model.Product;
 import com.example.capstoneone.Service.ProductService;
 import jakarta.validation.Valid;
@@ -9,8 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.HandlerMapping;
-
-import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/api/v1/product")
@@ -21,7 +18,7 @@ public class ProductController {
     private final HandlerMapping resourceHandlerMapping;
 
     // Get all products
-    @GetMapping("/all")
+    @GetMapping("/get")
     public ResponseEntity<?> getAllProducts() {
         return ResponseEntity.ok(productService.getAllProducts());
     }
@@ -74,4 +71,6 @@ public class ProductController {
         }
         return ResponseEntity.status(404).body("Product not found");
     }
+
+
 }

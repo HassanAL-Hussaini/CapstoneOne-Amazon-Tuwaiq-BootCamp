@@ -19,7 +19,6 @@ public class MerchantStock {
     private String merchantId;
 
     @NotNull(message = "Stock cannot be null. Please enter an initial stock quantity.")
-    @Min(value = 10, message = "Stock must be at least 10 units to start.")
     private int stock;
 
 }

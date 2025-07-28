@@ -25,10 +25,19 @@ public class User {
     private String email;
 
     @NotEmpty(message = "Role must not be empty")
-    @Pattern(regexp = "^(Admin|Customer)$", message = "Role must be either Admin or Customer")
+    @Pattern(regexp = "^(Admin|Customer|Interester|Wholesale buyer)$", message = "Role must be either Admin, Customer, Interester, Wholesale buyer")
     private String role;
 
     @NotNull(message = "Balance must not be null")
     @Positive(message = "Balance must be positive")
     private Double balance;
+
+    @NotEmpty
+    private String preference;
+
+    @NotEmpty
+    @Pattern(regexp = "^(public|private)$", message = "account must be private or public")
+    private String account;
+
+
 }

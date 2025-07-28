@@ -1,12 +1,18 @@
 package com.example.capstoneone.Controller;
 
+import com.example.capstoneone.API.ApiResponse;
+import com.example.capstoneone.Model.Product;
 import com.example.capstoneone.Model.User;
 import com.example.capstoneone.Service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.cors.PreFlightRequestHandler;
+
+import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -14,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+    private final PreFlightRequestHandler preFlightRequestHandler;
 
     // Get all users
     @GetMapping("/get")
@@ -56,7 +63,6 @@ public class UserController {
         }
         return ResponseEntity.status(404).body("User not found");
     }
-
     // Get user by ID
     @GetMapping("get-user-by-id/{id}")
     public ResponseEntity<?> getUserById(@PathVariable String id) {
@@ -65,5 +71,22 @@ public class UserController {
             return ResponseEntity.ok(user);
         }
         return ResponseEntity.status(404).body("User not found");
+    }
+    @GetMapping("/get-preferences-product/{userId}")
+    public ResponseEntity<?> getPreferenceProducts(@PathVariable String userId){
+        ArrayList<Product> preferencesProducts = userService.preferenceInterester(userId);
+        if(preferencesProducts != null){
+            return ResponseEntity.ok().body(preferencesProducts);
+        }
+        return ResponseEntity.badRequest().body(new ApiResponse("you are not allowed to use preference Method"));
+    }
+
+    @GetMapping("/get-Friends/{userId}")
+    public ResponseEntity<?> getClosestFriends(@PathVariable String userId){
+        if(userService.getFriends(userId) != null){
+            return ResponseEntity.ok().body(userService.getFriends(userId));
+        }else{
+            return ResponseEntity.badRequest().body(new ApiResponse("you are Not Allowed to see this List, you have to be interest in something"));
+        }
     }
 }
