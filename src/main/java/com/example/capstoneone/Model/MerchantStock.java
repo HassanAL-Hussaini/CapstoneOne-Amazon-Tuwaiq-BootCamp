@@ -1,8 +1,6 @@
 package com.example.capstoneone.Model;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -21,4 +19,8 @@ public class MerchantStock {
     @NotNull(message = "Stock cannot be null. Please enter an initial stock quantity.")
     private int stock;
 
+    @NotNull
+    @Positive
+    @Max(10)
+    private int quantityForContentCreator;//يحدد التاجر اثناء انشاء ميرشنت ستوك كم عدد القطع اللي يبي يوزعها بالمجان على صناع المحتوى
 }

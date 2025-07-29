@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 public class ApiResponse {
 
     private String message;
-    private int status = 0 ;
+    private int status ;
     public ApiResponse(String message){
         this.message = message;
-        this.status = 0 ;
     }
+
 }

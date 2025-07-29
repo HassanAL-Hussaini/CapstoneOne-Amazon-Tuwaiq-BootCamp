@@ -1,6 +1,8 @@
 package com.example.capstoneone.Controller;
 
+import com.example.capstoneone.API.ApiResponse;
 import com.example.capstoneone.Model.Product;
+import com.example.capstoneone.Service.MerchantStockService;
 import com.example.capstoneone.Service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +11,10 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.HandlerMapping;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 @RestController
 @RequestMapping("/api/v1/product")
 @RequiredArgsConstructor
@@ -16,6 +22,7 @@ public class ProductController {
 
     private final ProductService productService;
     private final HandlerMapping resourceHandlerMapping;
+    private final MerchantStockService merchantStockService;
 
     // Get all products
     @GetMapping("/get")
@@ -71,6 +78,18 @@ public class ProductController {
         }
         return ResponseEntity.status(404).body("Product not found");
     }
+    @GetMapping("api/get-product-criticism/{id}")//TODO جيب المنتج id واعرض الكومنت حقه فقط
+    public ResponseEntity<?> getProductCriticism(@PathVariable String id){
+         Product details = productService.getProductCriticism(id);
+         return ResponseEntity.status(202).body(details);
+    }
 
+    @PutMapping("/content-creator-request/{contentCreatorId}/{productId}")
+    public ResponseEntity<?> requestContentCreatorItem(@PathVariable String contentCreatorId,
+                                                       @PathVariable String productId) {
+        ApiResponse response = merchantStockService.permissionToContentCreator(contentCreatorId, productId);
+
+        return ResponseEntity.status(response.getStatus()).body(response.getMessage());
+    }
 
 }

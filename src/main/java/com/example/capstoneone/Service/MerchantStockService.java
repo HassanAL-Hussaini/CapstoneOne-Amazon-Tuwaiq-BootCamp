@@ -176,4 +176,24 @@ public class MerchantStockService {
         return new ApiResponse("the product Done successfully",200);
     }
 
+    public ApiResponse permissionToContentCreator(String contentCreatorId,String productId){
+        User user = userService.getUserById(contentCreatorId);
+        MerchantStock merchantStock = findByProductId(productId);
+        Product product = productService.findById(productId);
+        if(user == null || !(user.getRole().equals("content creator"))){
+            return new ApiResponse("you are not Content Creator",400);
+        }
+        if(merchantStock == null || !(merchantStock.getQuantityForContentCreator() > 0)){
+            return new ApiResponse("\"The items for content creators are no longer available. We apologize — the stock has run out." ,400);
+        }
+        if(!product.isContentCreatorProduct()){
+            return new ApiResponse("this product is no longer available yet for Content Creator, the Merchant Stop the Service",400);
+        }
+        if(user.isTakingTheContentCreatorGift()){
+            return new ApiResponse("you Already Taking One, you can't take 2 pieces",400);
+        }
+        merchantStock.setQuantityForContentCreator(merchantStock.getQuantityForContentCreator() - 1);
+        user.setTakingTheContentCreatorGift(true);//عشان ما يكون عنده القدره يطلب القطعه مره اخرى
+        return new ApiResponse("the Limited Edition for Content Creator arriving you soon at your Current Location",200);
+    }
 }

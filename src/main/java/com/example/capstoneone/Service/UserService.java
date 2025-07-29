@@ -93,7 +93,7 @@ public class UserService {
 
         // نرتبهم بناءً على الفرق في الرصيد (من الأصغر إلى الأكبر)
         sortedFriends.sort((u1, u2) -> {
-            double diff1 = Math.abs(u1.getBalance() - userBalance);
+            double diff1 = Math.abs(u1.getBalance() - userBalance);//abs = abslute
             double diff2 = Math.abs(u2.getBalance() - userBalance);
             return Double.compare(diff1, diff2);
         });
