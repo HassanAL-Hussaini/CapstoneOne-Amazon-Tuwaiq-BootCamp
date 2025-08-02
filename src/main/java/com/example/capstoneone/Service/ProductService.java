@@ -65,12 +65,12 @@ public class ProductService {
         return null;
     }
 
-    public Product getProductCriticism(String id) {
+    public Product getProductCriticism(String productID) {
         try {
             Product[] comments = restTemplate.getForObject(API_URL, Product[].class);
             if (comments != null) {
                 for (Product comment : comments) {
-                    if (comment.getId().equals(id)) {
+                    if (comment.getId().equals(productID)) {
                         return comment; // يرجع الكائن كامل
                     }
                 }

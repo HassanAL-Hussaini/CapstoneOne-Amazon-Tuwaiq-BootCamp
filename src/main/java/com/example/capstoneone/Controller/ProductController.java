@@ -78,7 +78,7 @@ public class ProductController {
         }
         return ResponseEntity.status(404).body("Product not found");
     }
-    @GetMapping("api/get-product-criticism/{id}")//TODO جيب المنتج id واعرض الكومنت حقه فقط
+    @GetMapping("api/get-product-criticism/{id}")//DONE: جيب المنتج id واعرض الكومنت حقه فقط
     public ResponseEntity<?> getProductCriticism(@PathVariable String id){
          Product details = productService.getProductCriticism(id);
          return ResponseEntity.status(202).body(details);

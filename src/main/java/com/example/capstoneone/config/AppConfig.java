@@ -10,6 +10,8 @@ import org.springframework.web.client.RestTemplate;
 public class AppConfig {
 
 
+    //DONE webCLint Spring boot search on it
+    //After search it's new version of restTemplate, better to use it instead of restTemplate.
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder){
         return builder.build();

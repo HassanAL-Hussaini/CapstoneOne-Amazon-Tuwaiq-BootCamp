@@ -89,24 +89,25 @@ public class MerchantStockService {
             return false;
     }
     // --------Q12---------
-    public ApiResponse payment(String userId , String merchantId , String productId){
+    //DONE االافضل انك ترجع سترنق وتهندلها في الكونترولر على حسب السترنق
+    public String payment(String userId , String merchantId , String productId){
         User user = userService.getUserById(userId);
         Merchant merchant = merchantService.findById(merchantId);
         Product product = productService.findById(productId);
         if(user == null || merchant == null || product == null){
-            return new ApiResponse("you have to add (user / merchant / product) before payment ",400);
+            return "you have to add (user / merchant / product) before payment ";//400
         }
         if(!checkStockQuantity(productId)){
-            return new ApiResponse("out of stock",400);
+            return "out of stock";//400
         }
 
         if(user.getBalance() >= product.getPrice()){
             user.setBalance(user.getBalance() - product.getPrice());
             MerchantStock merchantStock = findAvailableStockByMerchantStockId(productId);
             merchantStock.setStock(merchantStock.getStock() - 1);
-            return new ApiResponse("Payment Done Successfully",200);
+            return "Payment Done Successfully";
         }
-            return new ApiResponse("payment Rejected ,money Not enough ");
+            return "payment Rejected ,money Not enough ";
     }
 
     //Extra services

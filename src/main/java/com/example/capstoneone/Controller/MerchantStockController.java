@@ -5,7 +5,6 @@ import com.example.capstoneone.Model.MerchantStock;
 import com.example.capstoneone.Service.MerchantStockService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -63,12 +62,20 @@ public class MerchantStockController {
     //Q12
     @PutMapping("/buy-product/{userId}/{merchantId}/{productId}")
     public ResponseEntity<?> buyProduct(@PathVariable String userId ,@PathVariable String merchantId ,@PathVariable String productId){
-        ApiResponse message =  merchantStockService.payment(userId,merchantId,productId);
-        if(message.getStatus()==200){
-            return ResponseEntity.ok().body(message.getMessage());
-        }
-        return ResponseEntity.badRequest().body(message.getMessage());
+        String message =  merchantStockService.payment(userId,merchantId,productId);
+        ResponseEntity<ApiResponse> response =  ResponseEntity.status(400).body(new ApiResponse(message));
+
+        // handle the request with switch statement this is the right way if you don't have catch up methods.
+        return switch (message) {
+            case ("you have to add (user / merchant / product) before payment "), "out of stock" -> response;
+            case "Payment Done Successfully" ->// success Request
+                    ResponseEntity.status(200).body(new ApiResponse(message));
+            default -> response;
+        };
+
     }
+
+
     //Extra Endpoint get more than 1000 product stock , Note as I said in the service I will Count this method from 5 extra it's only for clarification
     @GetMapping("/get-1000-stock")
     public ResponseEntity<?> getProductWith1000StockOrMore(){

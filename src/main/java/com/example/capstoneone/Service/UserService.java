@@ -86,8 +86,8 @@ public class UserService {
             }
         return getClosest3FriendsUsingSort(friends , user.getBalance());
     }
-
-    public ArrayList<User> getClosest3FriendsUsingSort(ArrayList<User> friends, double userBalance) {
+    //DONE it should be private
+    private ArrayList<User> getClosest3FriendsUsingSort(ArrayList<User> friends, double userBalance) {
         // ننسخ القائمة علشان ما نعدل الأصلية
         ArrayList<User> sortedFriends = new ArrayList<>(friends);
 
